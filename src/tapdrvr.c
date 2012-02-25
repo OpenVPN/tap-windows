@@ -146,6 +146,7 @@ const UINT g_SupportedOIDList[] = {
 //============================================================
 #pragma NDIS_INIT_FUNCTION (DriverEntry)
 
+DRIVER_INITIALIZE DriverEntry;
 NTSTATUS
 DriverEntry (IN PDRIVER_OBJECT p_DriverObject,
 	     IN PUNICODE_STRING p_RegistryPath)
@@ -258,6 +259,7 @@ DriverEntry (IN PDRIVER_OBJECT p_DriverObject,
 //============================================================
 //                         Driver Unload
 //============================================================
+DRIVER_UNLOAD TapDriverUnload;
 VOID 
 TapDriverUnload (IN PDRIVER_OBJECT p_DriverObject)
 {
@@ -1874,6 +1876,7 @@ AdapterTransmit (IN NDIS_HANDLE p_AdapterContext,
 // Hooks for catching TAP device IRP's.
 //======================================================================
 
+DRIVER_DISPATCH TapDeviceHook;
 NTSTATUS
 TapDeviceHook (IN PDEVICE_OBJECT p_DeviceObject, IN PIRP p_IRP)
 {
