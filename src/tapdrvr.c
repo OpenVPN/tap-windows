@@ -31,8 +31,8 @@
 // By default we operate as a "tap" virtual ethernet
 // 802.3 interface, but we can emulate a "tun"
 // interface (point-to-point IPv4) through the
-// TAP_IOCTL_CONFIG_POINT_TO_POINT or
-// TAP_IOCTL_CONFIG_TUN ioctl.
+// TAP_WIN_IOCTL_CONFIG_POINT_TO_POINT or
+// TAP_WIN_IOCTL_CONFIG_TUN ioctl.
 //======================================================
 
 #include "tap-windows.h"
@@ -824,7 +824,7 @@ CreateTapDevice (TapExtensionPointer p_Extension, const char *p_Name)
      "%s%s%s",
      SYSDEVICEDIR,
      l_UsableName,
-     TAPSUFFIX);
+     TAP_WIN_SUFFIX);
 
   if (l_Status != STATUS_SUCCESS)
     {
@@ -850,7 +850,7 @@ CreateTapDevice (TapExtensionPointer p_Extension, const char *p_Name)
      "%s%s%s",
      USERDEVICEDIR,
      l_UsableName,
-     TAPSUFFIX);
+     TAP_WIN_SUFFIX);
 
   if (l_Status != STATUS_SUCCESS)
     {
@@ -1914,7 +1914,7 @@ TapDeviceHook (IN PDEVICE_OBJECT p_DeviceObject, IN PIRP p_IRP)
       {
 	switch (l_IrpSp->Parameters.DeviceIoControl.IoControlCode)
 	  {
-	  case TAP_IOCTL_GET_MAC:
+	  case TAP_WIN_IOCTL_GET_MAC:
 	    {
 	      if (l_IrpSp->Parameters.DeviceIoControl.OutputBufferLength
 		  >= sizeof (MACADDR))
@@ -1930,7 +1930,7 @@ TapDeviceHook (IN PDEVICE_OBJECT p_DeviceObject, IN PIRP p_IRP)
 		}
 	      break;
 	    }
-	  case TAP_IOCTL_GET_VERSION:
+	  case TAP_WIN_IOCTL_GET_VERSION:
 	    {
 	      const ULONG size = sizeof (ULONG) * 3;
 	      if (l_IrpSp->Parameters.DeviceIoControl.OutputBufferLength
@@ -1956,7 +1956,7 @@ TapDeviceHook (IN PDEVICE_OBJECT p_DeviceObject, IN PIRP p_IRP)
 
 	      break;
 	    }
-	  case TAP_IOCTL_GET_MTU:
+	  case TAP_WIN_IOCTL_GET_MTU:
 	    {
 	      const ULONG size = sizeof (ULONG) * 1;
 	      if (l_IrpSp->Parameters.DeviceIoControl.OutputBufferLength
@@ -1974,7 +1974,7 @@ TapDeviceHook (IN PDEVICE_OBJECT p_DeviceObject, IN PIRP p_IRP)
 
 	      break;
 	    }
-	  case TAP_IOCTL_GET_INFO:
+	  case TAP_WIN_IOCTL_GET_INFO:
 	    {
 	      char state[16];
 	      if (l_Adapter->m_InterfaceIsRunning)
@@ -2035,7 +2035,7 @@ TapDeviceHook (IN PDEVICE_OBJECT p_DeviceObject, IN PIRP p_IRP)
 	    }
 
 #if DBG
-	  case TAP_IOCTL_GET_LOG_LINE:
+	  case TAP_WIN_IOCTL_GET_LOG_LINE:
 	    {
 	      if (GetDebugLine ((LPTSTR)p_IRP->AssociatedIrp.SystemBuffer,
 				l_IrpSp->Parameters.DeviceIoControl.OutputBufferLength))
@@ -2050,7 +2050,7 @@ TapDeviceHook (IN PDEVICE_OBJECT p_DeviceObject, IN PIRP p_IRP)
 	    }
 #endif
 
-	  case TAP_IOCTL_CONFIG_TUN:
+	  case TAP_WIN_IOCTL_CONFIG_TUN:
 	    {
 	      if (l_IrpSp->Parameters.DeviceIoControl.InputBufferLength >=
 		  (sizeof (IPADDR) * 3))
@@ -2097,7 +2097,7 @@ TapDeviceHook (IN PDEVICE_OBJECT p_DeviceObject, IN PIRP p_IRP)
 	      break;
 	    }
 
-	  case TAP_IOCTL_CONFIG_POINT_TO_POINT: // Obsoleted by TAP_IOCTL_CONFIG_TUN
+	  case TAP_WIN_IOCTL_CONFIG_POINT_TO_POINT: // Obsoleted by TAP_WIN_IOCTL_CONFIG_TUN
 	    {
 	      if (l_IrpSp->Parameters.DeviceIoControl.InputBufferLength >=
 		  (sizeof (IPADDR) * 2))
@@ -2136,7 +2136,7 @@ TapDeviceHook (IN PDEVICE_OBJECT p_DeviceObject, IN PIRP p_IRP)
 	      break;
 	    }
 
-	  case TAP_IOCTL_SET_MEDIA_STATUS:
+	  case TAP_WIN_IOCTL_SET_MEDIA_STATUS:
 	    {
 	      if (l_IrpSp->Parameters.DeviceIoControl.InputBufferLength >=
 		  (sizeof (ULONG) * 1))
@@ -2153,7 +2153,7 @@ TapDeviceHook (IN PDEVICE_OBJECT p_DeviceObject, IN PIRP p_IRP)
 	      break;
 	    }
 
-	  case TAP_IOCTL_CONFIG_DHCP_MASQ:
+	  case TAP_WIN_IOCTL_CONFIG_DHCP_MASQ:
 	    {
 	      if (l_IrpSp->Parameters.DeviceIoControl.InputBufferLength >=
 		  (sizeof (IPADDR) * 4))
@@ -2194,7 +2194,7 @@ TapDeviceHook (IN PDEVICE_OBJECT p_DeviceObject, IN PIRP p_IRP)
 	      break;
 	    }
 
-	  case TAP_IOCTL_CONFIG_DHCP_SET_OPT:
+	  case TAP_WIN_IOCTL_CONFIG_DHCP_SET_OPT:
 	    {
 	      if (l_IrpSp->Parameters.DeviceIoControl.InputBufferLength <=
 		  DHCP_USER_SUPPLIED_OPTIONS_BUFFER_SIZE

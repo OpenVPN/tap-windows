@@ -391,7 +391,7 @@ SendDHCPMsg (const TapAdapterPointer a,
 //===================================================================
 // Handle a BOOTPS packet produced by the local system to
 // resolve the address/netmask of this adapter.
-// If we are in TAP_IOCTL_CONFIG_DHCP_MASQ mode, reply
+// If we are in TAP_WIN_IOCTL_CONFIG_DHCP_MASQ mode, reply
 // to the message.  Return TRUE if we processed the passed
 // message, so that downstream stages can ignore it.
 //===================================================================
