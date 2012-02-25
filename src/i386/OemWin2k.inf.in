@@ -18,10 +18,10 @@
 ;*********************************************************
 ; Note to Developers:
 ;
-; If you are bundling the TAP-Win32 driver with your app,
+; If you are bundling the TAP-Windows driver with your app,
 ; you should try to rename it in such a way that it will
-; not collide with other instances of TAP-Win32 defined
-; by other apps.  Multiple versions of the TAP-Win32
+; not collide with other instances of TAP-Windows defined
+; by other apps.  Multiple versions of the TAP-Windows
 ; driver, each installed by different apps, can coexist
 ; on the same machine if you follow these guidelines.
 ; NOTE: these instructions assume you are editing the

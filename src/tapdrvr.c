@@ -1,6 +1,6 @@
 /*
- *  TAP-Win32/TAP-Win64 -- A kernel driver to provide virtual tap
- *                         device functionality on Windows.
+ *  TAP-Windows -- A kernel driver to provide virtual tap
+ *                 device functionality on Windows.
  *
  *  This code was inspired by the CIPE-Win32 driver by Damion K. Wilson.
  *
@@ -928,7 +928,7 @@ CreateTapDevice (TapExtensionPointer p_Extension, const char *p_Name)
   // to satisfy IRP requests in the IRP queue.
   //
   // QueueLock is used to lock the packet queue used
-  // for the TAP-Win32 NIC -> User Space packet flow direction.
+  // for the TAP-Windows NIC -> User Space packet flow direction.
   //
   // All accesses to packet or IRP queues should be
   // bracketed by the QueueLock spinlock,

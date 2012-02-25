@@ -1,6 +1,6 @@
 /*
- *  TAP-Win32/TAP-Win64 -- A kernel driver to provide virtual tap
- *                         device functionality on Windows.
+ *  TAP-Windows -- A kernel driver to provide virtual tap
+ *                 device functionality on Windows.
  *
  *  This code was inspired by the CIPE-Win32 driver by Damion K. Wilson.
  *
@@ -24,7 +24,7 @@
 
 //===============================================
 // This file is included both by OpenVPN and
-// the TAP-Win32 driver and contains definitions
+// the TAP-Windows driver and contains definitions
 // common to both.
 //===============================================
 

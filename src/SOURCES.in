@@ -1,4 +1,4 @@
-# Build TAP-Win32 driver.
+# Build TAP-Windows driver.
 # Build Command: build -cef
 
 MAJORCOMP=ntos
