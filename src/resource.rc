@@ -4,6 +4,11 @@
 /* get VERSION */
 #include "common.h"
 
+#undef VER_PRODUCTVERSION
+#undef VER_PRODUCTVERSION_STR
+#undef VER_COMPANYNAME_STR
+#undef VER_PRODUCTNAME_STR
+
 /* VER_FILETYPE, VER_FILESUBTYPE, VER_FILEDESCRIPTION_STR
  * and VER_INTERNALNAME_STR must be defined before including COMMON.VER
  * The strings don't need a '\0', since common.ver has them.
