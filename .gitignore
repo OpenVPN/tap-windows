@@ -1,10 +1,15 @@
 *.pdb
 *.sys
 *.map
+*.cat
 *.cod
+*.exe
+*.zip
+tmp
+config-local.m4
+config-env.bat
 src/obj*
 src/amd64
 src/i386
 src/SOURCES
-src/i386/OemWin2k.inf
 src/config.h

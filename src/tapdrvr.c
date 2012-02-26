@@ -36,6 +36,7 @@
 //======================================================
 
 #include "tap-windows.h"
+#include "config.h"
 
 #define NDIS_MINIPORT_DRIVER
 #define BINARY_COMPATIBLE 0
@@ -1028,8 +1029,8 @@ NDIS_STATUS AdapterQuery
       //                       Vendor & Driver version Info
       //===================================================================
     case OID_GEN_VENDOR_DESCRIPTION:
-      l_QueryPtr = (TapAdapterQueryPointer) PRODUCT_STRING;
-      l_QueryLength = strlen (PRODUCT_STRING) + 1;
+      l_QueryPtr = (TapAdapterQueryPointer) PRODUCT_TAP_WIN_DEVICE_DESCRIPTION;
+      l_QueryLength = strlen (PRODUCT_TAP_WIN_DEVICE_DESCRIPTION) + 1;
       break;
 
     case OID_GEN_VENDOR_ID:
@@ -1045,8 +1046,8 @@ NDIS_STATUS AdapterQuery
 
     case OID_GEN_VENDOR_DRIVER_VERSION:
       l_Query.m_Long =
-	(((USHORT) TAP_DRIVER_MAJOR_VERSION) << 8 | (USHORT)
-	 TAP_DRIVER_MINOR_VERSION);
+	(((USHORT) PRODUCT_TAP_WIN_MAJOR) << 8 | (USHORT)
+	 PRODUCT_TAP_WIN_MINOR);
       break;
 
       //=================================================================

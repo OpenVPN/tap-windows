@@ -95,7 +95,9 @@ MyDebugPrint (const unsigned char* format, ...)
 					       format,
 					       args);
 	      va_end (args);
-
+va_start (args, format);
+vDbgPrintEx(DPFLTR_IHVDRIVER_ID , 1, format, args);
+va_end (args);
 	      if (status == STATUS_SUCCESS)
 		g_Debug.out = (unsigned int) (end - g_Debug.text);
 	      else
