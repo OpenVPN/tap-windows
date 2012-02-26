@@ -36,9 +36,6 @@
 //======================================================
 
 #include "common.h"
-#ifndef DDKVER_MAJOR
-#error DDKVER_MAJOR must be defined as the major number of the DDK Version
-#endif
 
 #define NDIS_MINIPORT_DRIVER
 #define BINARY_COMPATIBLE 0
@@ -66,7 +63,7 @@
 //========================================================
 #define ENABLE_NONADMIN 1
 
-#if DDKVER_MAJOR < 5600
+#if defined(DDKVER_MAJOR) && DDKVER_MAJOR < 5600
 #include <ndis.h>
 #include <ntstrsafe.h>
 #include <ntddk.h>

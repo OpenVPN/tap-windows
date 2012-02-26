@@ -202,7 +202,7 @@ VOID HookDispatchFunctions();
 
 #if ENABLE_NONADMIN
 
-#if DDKVER_MAJOR < 5600
+#if defined(DDKVER_MAJOR) && DDKVER_MAJOR < 5600
 /*
  * Better solution for use on Vista DDK, but possibly not compatible with
  * earlier DDKs:
