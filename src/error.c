@@ -81,6 +81,11 @@ MyDebugPrint (const unsigned char* format, ...)
 	      NTSTATUS status;
 	      char *end;
 
+#ifdef DBG_PRINT
+	      va_start (args, format);
+	      vDbgPrintEx (DPFLTR_IHVNETWORK_ID, DPFLTR_INFO_LEVEL, format, args);
+	      va_end (args);
+#endif
 	      va_start (args, format);
 	      status = RtlStringCchVPrintfExA (g_Debug.text + g_Debug.out,
 					       remaining,
