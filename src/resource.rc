@@ -1,9 +1,6 @@
 #include <windows.h>
 #include <ntverp.h>
 
-/* get VERSION */
-#include "common.h"
-
 #undef VER_PRODUCTVERSION
 #undef VER_PRODUCTVERSION_STR
 #undef VER_COMPANYNAME_STR

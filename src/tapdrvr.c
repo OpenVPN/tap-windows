@@ -35,7 +35,7 @@
 // TAP_IOCTL_CONFIG_TUN ioctl.
 //======================================================
 
-#include "common.h"
+#include "tap-windows.h"
 
 #define NDIS_MINIPORT_DRIVER
 #define BINARY_COMPATIBLE 0
