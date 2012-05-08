@@ -110,6 +110,7 @@ FunctionEnd
 
 Function .onInit
 	ClearErrors
+	SetShellVarContext all
 	!insertmacro IsAdmin
 
 	# Delete previous start menu
