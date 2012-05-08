@@ -12,6 +12,7 @@ SetCompressor lzma
 
 !include "MUI.nsh"
 !include "StrFunc.nsh"
+!include "x64.nsh"
 
 ${StrLoc}
 
@@ -120,11 +121,7 @@ Section "TAP Virtual Ethernet Adapter" SecTAP
 
 	SetOverwrite on
 
-	; Check if we are running on a 64 bit system.
-	System::Call "kernel32::GetCurrentProcess() i .s"
-	System::Call "kernel32::IsWow64Process(i s, *i .R0)"
-	${If} $R0 != 0
-		; tap-64bit:
+	${If} ${RunningX64}
 		DetailPrint "We are running on a 64-bit system."
 
 		SetOutPath "$INSTDIR\bin"
@@ -135,7 +132,6 @@ Section "TAP Virtual Ethernet Adapter" SecTAP
 		File "${IMAGE}\amd64\${PRODUCT_TAP_WIN_COMPONENT_ID}.cat"
 		File "${IMAGE}\amd64\${PRODUCT_TAP_WIN_COMPONENT_ID}.sys"
 	${Else}
-		; tap-32bit
 		DetailPrint "We are running on a 32-bit system."
 
 		SetOutPath "$INSTDIR\bin"
