@@ -26,9 +26,6 @@ OutFile "${OUTPUT}"
 ShowInstDetails show
 ShowUninstDetails show
 
-;Folder selection page
-InstallDir "$PROGRAMFILES\${PRODUCT_NAME}"
-
 ;Remember install folder
 InstallDirRegKey HKCU "Software\${PRODUCT_NAME}" ""
 
@@ -114,6 +111,13 @@ FunctionEnd
 Function .onInit
 	ClearErrors
 	SetShellVarContext all
+
+	${If} ${RunningX64}
+		StrCpy $INSTDIR "$PROGRAMFILES64\${PRODUCT_NAME}"
+	${Else}
+		StrCpy $INSTDIR "$PROGRAMFILES\${PRODUCT_NAME}"
+	${EndIf}
+
 	!insertmacro IsAdmin
 FunctionEnd
 
