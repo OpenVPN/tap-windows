@@ -288,6 +288,7 @@ Section "Uninstall"
 	RMDir "$INSTDIR\driver"
 	RMDir "$INSTDIR\include"
 	RMDir "$INSTDIR"
+	RMDir /r "$SMPROGRAMS\${PRODUCT_NAME}"
 
 	DeleteRegKey HKCR "${PRODUCT_NAME}File"
 	DeleteRegKey HKLM "SOFTWARE\${PRODUCT_NAME}"
