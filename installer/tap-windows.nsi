@@ -113,6 +113,7 @@ Function .onInit
 	SetShellVarContext all
 
 	${If} ${RunningX64}
+		SetRegView 64
 		StrCpy $INSTDIR "$PROGRAMFILES64\${PRODUCT_NAME}"
 	${Else}
 		StrCpy $INSTDIR "$PROGRAMFILES\${PRODUCT_NAME}"
@@ -279,6 +280,9 @@ SectionEnd
 Function un.onInit
 	ClearErrors
 	SetShellVarContext all
+	${If} ${RunningX64}
+		SetRegView 64
+	${EndIf}
 	!insertmacro IsAdmin
 FunctionEnd
 
