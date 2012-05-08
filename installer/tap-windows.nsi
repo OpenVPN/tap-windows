@@ -27,7 +27,7 @@ ShowInstDetails show
 ShowUninstDetails show
 
 ;Remember install folder
-InstallDirRegKey HKCU "Software\${PRODUCT_NAME}" ""
+InstallDirRegKey HKLM "SOFTWARE\${PRODUCT_NAME}" ""
 
 ;--------------------------------
 ;Modern UI Configuration
@@ -308,9 +308,7 @@ Section "Uninstall"
 	RMDir "$INSTDIR"
 	RMDir /r "$SMPROGRAMS\${PRODUCT_NAME}"
 
-	DeleteRegKey HKCR "${PRODUCT_NAME}File"
 	DeleteRegKey HKLM "SOFTWARE\${PRODUCT_NAME}"
-	DeleteRegKey HKCU "Software\${PRODUCT_NAME}"
 	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 
 SectionEnd
