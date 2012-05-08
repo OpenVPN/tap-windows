@@ -11,8 +11,9 @@
 SetCompressor lzma
 
 !include "MUI.nsh"
+!include "StrFunc.nsh"
 
-!include "StrStr.nsi"
+${StrLoc}
 
 ;--------------------------------
 ;Configuration
@@ -218,11 +219,12 @@ Section -post
 		; that TAP device has been previously installed,
 		; therefore we will update, not install.
 		Push "${PRODUCT_TAP_WIN_COMPONENT_ID}"
-		Call StrStr
+		Push ">"
+		Call StrLoc
 		Pop $R0
 
 		${If} $R5 == 0
-			${If} $R0 == -1
+			${If} $R0 == ""
 				DetailPrint "TAP INSTALL (${PRODUCT_TAP_WIN_COMPONENT_ID})"
 				nsExec::ExecToLog '"$INSTDIR\bin\${DEVCON_BASENAME}" install "$INSTDIR\driver\OemWin2k.inf" ${PRODUCT_TAP_WIN_COMPONENT_ID}'
 				Pop $R0 # return value/error/timeout
