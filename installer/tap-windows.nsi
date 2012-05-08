@@ -81,20 +81,6 @@ LangString DESC_SecTAPSDK ${LANG_ENGLISH} "Install the TAP SDK."
 ReserveFile "install-whirl.bmp"
 
 ;--------------------------------
-;Macros
-
-;------------------------------------------
-;Set reboot flag based on tapinstall return
-
-Function CheckReboot
-	${If} $R0 == ""
-		IntOp $R0 0 & 0
-		SetRebootFlag true
-		DetailPrint "REBOOT flag set"
-	${EndIf}
-FunctionEnd
-
-;--------------------------------
 ;Installer Sections
 
 Function .onInit
@@ -214,20 +200,20 @@ Section -post
 
 		${If} $R5 == 0
 			${If} $R0 == ""
-				DetailPrint "TAP INSTALL (${PRODUCT_TAP_WIN_COMPONENT_ID})"
-				nsExec::ExecToLog '"$INSTDIR\bin\${DEVCON_BASENAME}" install "$INSTDIR\driver\OemWin2k.inf" ${PRODUCT_TAP_WIN_COMPONENT_ID}'
-				Pop $R0 # return value/error/timeout
-				Call CheckReboot
-				IntOp $R5 $R5 | $R0
-				DetailPrint "${DEVCON_BASENAME} install returned: $R0"
+				StrCpy $R1 "install"
 			${Else}
-				DetailPrint "TAP UPDATE"
-				nsExec::ExecToLog '"$INSTDIR\bin\${DEVCON_BASENAME}" update "$INSTDIR\driver\OemWin2k.inf" ${PRODUCT_TAP_WIN_COMPONENT_ID}'
-				Pop $R0 # return value/error/timeout
-				Call CheckReboot
-				IntOp $R5 $R5 | $R0
-				DetailPrint "${DEVCON_BASENAME} update returned: $R0"
+				StrCpy $R1 "update"
 			${EndIf}
+			DetailPrint "TAP $R1 (${PRODUCT_TAP_WIN_COMPONENT_ID}) (May require confirmation)"
+			nsExec::ExecToLog '"$INSTDIR\bin\${DEVCON_BASENAME}" $R1 "$INSTDIR\driver\OemWin2k.inf" ${PRODUCT_TAP_WIN_COMPONENT_ID}'
+			Pop $R0 # return value/error/timeout
+			${If} $R0 == ""
+				IntOp $R0 0 & 0
+				SetRebootFlag true
+				DetailPrint "REBOOT flag set"
+			${EndIf}
+			IntOp $R5 $R5 | $R0
+			DetailPrint "${DEVCON_BASENAME} returned: $R0"
 		${EndIf}
 
 		DetailPrint "${DEVCON_BASENAME} cumulative status: $R5"
