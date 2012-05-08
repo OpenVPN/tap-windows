@@ -13,6 +13,8 @@ SetCompressor lzma
 !include "MUI.nsh"
 !include "StrFunc.nsh"
 !include "x64.nsh"
+!define MULTIUSER_EXECUTIONLEVEL Admin
+!include "MultiUser.nsh"
 
 ${StrLoc}
 
@@ -81,19 +83,6 @@ ReserveFile "install-whirl.bmp"
 ;--------------------------------
 ;Macros
 
-!macro IsAdmin
-	UserInfo::GetName
-	${Unless} ${Errors}
-		Pop $R0
-		UserInfo::GetAccountType
-		Pop $R1
-		${If} $R1 != "Admin"
-			Messagebox MB_OK "Administrator privileges required to install/uninstall ${PRODUCT_NAME} [$R0/$R1]"
-			Abort
-		${EndIf}
-	${EndUnlesS}
-!macroend
-
 ;------------------------------------------
 ;Set reboot flag based on tapinstall return
 
@@ -110,6 +99,7 @@ FunctionEnd
 
 Function .onInit
 	ClearErrors
+	!insertmacro MULTIUSER_INIT
 	SetShellVarContext all
 
 	${If} ${RunningX64}
@@ -118,8 +108,6 @@ Function .onInit
 	${Else}
 		StrCpy $INSTDIR "$PROGRAMFILES\${PRODUCT_NAME}"
 	${EndIf}
-
-	!insertmacro IsAdmin
 FunctionEnd
 
 Section "TAP Virtual Ethernet Adapter" SecTAP
@@ -279,11 +267,11 @@ SectionEnd
 
 Function un.onInit
 	ClearErrors
+	!insertmacro MULTIUSER_UNINIT
 	SetShellVarContext all
 	${If} ${RunningX64}
 		SetRegView 64
 	${EndIf}
-	!insertmacro IsAdmin
 FunctionEnd
 
 Section "Uninstall"
