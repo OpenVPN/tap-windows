@@ -68,6 +68,7 @@ Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 ;Language Strings
 
 LangString DESC_SecTAP ${LANG_ENGLISH} "Install/Upgrade the TAP virtual device driver.  Will not interfere with CIPE."
+LangString DESC_SecTAPUtilities ${LANG_ENGLISH} "Install the TAP Utilities."
 LangString DESC_SecTAPSDK ${LANG_ENGLISH} "Install the TAP SDK."
 
 ;--------------------------------
@@ -112,28 +113,11 @@ Function .onInit
 	ClearErrors
 	SetShellVarContext all
 	!insertmacro IsAdmin
-
-	# Delete previous start menu
-	RMDir /r $SMPROGRAMS\${PRODUCT_NAME}
-
 FunctionEnd
 
 Section "TAP Virtual Ethernet Adapter" SecTAP
 
 	SetOverwrite on
-
-	FileOpen $R0 "$INSTDIR\bin\addtap.bat" w
-	FileWrite $R0 "rem Add a new TAP virtual ethernet adapter$\r$\n"
-	FileWrite $R0 '"$INSTDIR\bin\${DEVCON_BASENAME}" install "$INSTDIR\driver\OemWin2k.inf" ${PRODUCT_TAP_WIN_COMPONENT_ID}$\r$\n'
-	FileWrite $R0 "pause$\r$\n"
-	FileClose $R0
-
-	FileOpen $R0 "$INSTDIR\bin\deltapall.bat" w
-	FileWrite $R0 "echo WARNING: this script will delete ALL TAP virtual adapters (use the device manager to delete adapters one at a time)$\r$\n"
-	FileWrite $R0 "pause$\r$\n"
-	FileWrite $R0 '"$INSTDIR\bin\${DEVCON_BASENAME}" remove ${PRODUCT_TAP_WIN_COMPONENT_ID}$\r$\n'
-	FileWrite $R0 "pause$\r$\n"
-	FileClose $R0
 
 	; Check if we are running on a 64 bit system.
 	System::Call "kernel32::GetCurrentProcess() i .s"
@@ -163,11 +147,45 @@ Section "TAP Virtual Ethernet Adapter" SecTAP
 	${EndIf}
 SectionEnd
 
+Section /o "TAP Utilities" SecTAPUtilities
+	SetOverwrite on
+
+	# Delete previous start menu
+	RMDir /r "$SMPROGRAMS\${PRODUCT_NAME}"
+
+	FileOpen $R0 "$INSTDIR\bin\addtap.bat" w
+	FileWrite $R0 "rem Add a new TAP virtual ethernet adapter$\r$\n"
+	FileWrite $R0 '"$INSTDIR\bin\${DEVCON_BASENAME}" install "$INSTDIR\driver\OemWin2k.inf" ${PRODUCT_TAP_WIN_COMPONENT_ID}$\r$\n'
+	FileWrite $R0 "pause$\r$\n"
+	FileClose $R0
+
+	FileOpen $R0 "$INSTDIR\bin\deltapall.bat" w
+	FileWrite $R0 "echo WARNING: this script will delete ALL TAP virtual adapters (use the device manager to delete adapters one at a time)$\r$\n"
+	FileWrite $R0 "pause$\r$\n"
+	FileWrite $R0 '"$INSTDIR\bin\${DEVCON_BASENAME}" remove ${PRODUCT_TAP_WIN_COMPONENT_ID}$\r$\n'
+	FileWrite $R0 "pause$\r$\n"
+	FileClose $R0
+
+	; Create shortcuts
+	CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}\Utilities"
+	CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Utilities\Add a new TAP virtual ethernet adapter.lnk" "$INSTDIR\bin\addtap.bat" ""
+	CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Utilities\Delete ALL TAP virtual ethernet adapters.lnk" "$INSTDIR\bin\deltapall.bat" ""
+SectionEnd
+
 Section /o "TAP SDK" SecTAPSDK
 	SetOverwrite on
 	SetOutPath "$INSTDIR\include"
 	File "${IMAGE}\include\tap-windows.h"
 SectionEnd
+
+;--------------------------------
+;Dependencies
+
+Function .onSelChange
+	${If} ${SectionIsSelected} ${SecTAPUtilities}
+		!insertmacro SelectSection ${SecTAP}
+	${EndIf}
+FunctionEnd
 
 ;--------------------
 ;Post-install section
@@ -228,10 +246,6 @@ Section -post
 
 		; Store install folder in registry
 		WriteRegStr HKLM SOFTWARE\${PRODUCT_NAME} "" $INSTDIR
-
-		; Create shortcuts
-		CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Utilities\Add a new TAP virtual ethernet adapter.lnk" "$INSTDIR\bin\addtap.bat" ""
-		CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Utilities\Delete ALL TAP virtual ethernet adapters.lnk" "$INSTDIR\bin\deltapall.bat" ""
 	${EndIf}
 
 	; Create uninstaller
@@ -253,6 +267,7 @@ SectionEnd
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
 !insertmacro MUI_DESCRIPTION_TEXT ${SecTAP} $(DESC_SecTAP)
+!insertmacro MUI_DESCRIPTION_TEXT ${SecTAPUtilities} $(DESC_SecTAPUtilities)
 !insertmacro MUI_DESCRIPTION_TEXT ${SecTAPSDK} $(DESC_SecTAPSDK)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
@@ -261,6 +276,7 @@ SectionEnd
 
 Function un.onInit
 	ClearErrors
+	SetShellVarContext all
 	!insertmacro IsAdmin
 FunctionEnd
 
