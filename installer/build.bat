@@ -30,6 +30,13 @@ if "%OUTDIR%"=="" set OUTDIR=.
 set OUTPUT=%OUTDIR%\tap-windows-%PRODUCT_VERSION%
 set TAP_ROOT=tmp\image\tap-windows-%PRODUCT_VERSION%
 
+set SIGNTOOL_CMD="%SIGNTOOL%" sign /v /p "%CODESIGN_PASS%" /f "%CODESIGN_PKCS12%"
+set SIGNTOOL_CMD_DRIVERS=%SIGNTOOL_CMD%
+if "%CODESIGN_ISTEST%" NEQ "yes" (
+	set SIGNTOOL_CMD=%SIGNTOOL_CMD% /t http://timestamp.verisign.com/scripts/timestamp.dll
+	set SIGNTOOL_CMD_DRIVERS=%SIGNTOOL_CMD% /ac ..\build\MSCV-VSClass3.cer
+)
+
 del "%OUTPUT%.*" > nul 2>&1
 rmdir /q /s tmp > nul 2>&1
 
@@ -53,8 +60,9 @@ if errorlevel 1 goto error
 
 if not "%CODESIGN_PKCS12%"=="" (
 	for %%a in (i386 amd64) do (
-		"%SIGNTOOL%" sign /v /p "%CODESIGN_PASS%" /f "%CODESIGN_PKCS12%" /ac ..\build\MSCV-VSClass3.cer /t http://timestamp.verisign.com/scripts/timestamp.dll "%TAP_ROOT%\%%a\%PRODUCT_TAP_WIN_COMPONENT_ID%.sys"
-		"%SIGNTOOL%" sign /v /p "%CODESIGN_PASS%" /f "%CODESIGN_PKCS12%" /ac ..\build\MSCV-VSClass3.cer /t http://timestamp.verisign.com/scripts/timestamp.dll "%TAP_ROOT%\%%a\%PRODUCT_TAP_WIN_COMPONENT_ID%.cat"
+		%SIGNTOOL_CMD_DRIVERS% "%TAP_ROOT%\%%a\%PRODUCT_TAP_WIN_COMPONENT_ID%.sys"
+		if errorlevel 1 goto error
+		%SIGNTOOL_CMD_DRIVERS% "%TAP_ROOT%\%%a\%PRODUCT_TAP_WIN_COMPONENT_ID%.cat"
 		if errorlevel 1 goto error
 	)
 )
@@ -66,9 +74,8 @@ if errorlevel 1 goto error
 if errorlevel 1 goto error
 
 if not "%CODESIGN_PKCS12%"=="" (
-	"%SIGNTOOL%" sign /v /p "%CODESIGN_PASS%" /f "%CODESIGN_PKCS12%" /t http://timestamp.verisign.com/scripts/timestamp.dll "%OUTPUT%.exe"
-		if errorlevel 1 goto error
-	)
+	%SIGNTOOL_CMD% "%OUTPUT%.exe"
+	if errorlevel 1 goto error
 )
 
 set rc=0

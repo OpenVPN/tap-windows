@@ -31,6 +31,7 @@ if "%1"=="--help" (
 	echo     MAKENSIS          nullsoft installer
 	echo     CODESIGN_PKCS12   Code sign PKCS#12 optional
 	echo     CODESIGN_PASS     Code sign password
+	echo     CODESIGN_ISTEST   If yes, use test certificate
 	echo     OUTDIR            Output directory
 	exit /b 1
 )
@@ -60,7 +61,7 @@ if "%OUTDIR%"=="" set OUTDIR=%cd%
 
 set msvcg_args=cscript //nologo build/msvc-generate.js --config=version.m4
 if exist config-local.m4 set msvcg_args=%msvcg_args% --config=config-local.m4
-set msvcg_args=%msvcg_args% --var=DDK="%DDK%" --var=MAKENSIS="%MAKENSIS%" --var=SIGNTOOL="%SIGNTOOL%" --var=DEVCON32="%DEVCON32%" --var=DEVCON64="%DEVCON64%" --var=DEVCON_BASENAME="%DEVCON_BASENAME%" --var=EXTRA_C_DEFINES="%EXTRA_C_DEFINES%" --var=CODESIGN_PKCS12="%CODESIGN_PKCS12%" --var=CODESIGN_PASS="%CODESIGN_PASS%" --var=OUTDIR="%OUTDIR%"
+set msvcg_args=%msvcg_args% --var=DDK="%DDK%" --var=MAKENSIS="%MAKENSIS%" --var=SIGNTOOL="%SIGNTOOL%" --var=DEVCON32="%DEVCON32%" --var=DEVCON64="%DEVCON64%" --var=DEVCON_BASENAME="%DEVCON_BASENAME%" --var=EXTRA_C_DEFINES="%EXTRA_C_DEFINES%" --var=CODESIGN_PKCS12="%CODESIGN_PKCS12%" --var=CODESIGN_PASS="%CODESIGN_PASS%" --var=CODESIGN_ISTEST="%CODESIGN_ISTEST%" --var=OUTDIR="%OUTDIR%"
 
 for %%f in (config-env.bat src\SOURCES src\config.h) do (
 	%msvcg_args% --input=%%f.in --output=%%f
