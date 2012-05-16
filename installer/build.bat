@@ -34,7 +34,7 @@ set SIGNTOOL_CMD="%SIGNTOOL%" sign /v /p "%CODESIGN_PASS%" /f "%CODESIGN_PKCS12%
 set SIGNTOOL_CMD_DRIVERS=%SIGNTOOL_CMD%
 if "%CODESIGN_ISTEST%" NEQ "yes" (
 	set SIGNTOOL_CMD=%SIGNTOOL_CMD% /t http://timestamp.verisign.com/scripts/timestamp.dll
-	set SIGNTOOL_CMD_DRIVERS=%SIGNTOOL_CMD% /ac ..\build\MSCV-VSClass3.cer
+	set SIGNTOOL_CMD_DRIVERS=%SIGNTOOL_CMD% /ac "%CODESIGN_CROSS%"
 )
 
 del "%OUTPUT%.*" > nul 2>&1
