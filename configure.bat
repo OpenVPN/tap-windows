@@ -24,16 +24,16 @@ cd /d %0\..
 if "%1"=="--help" (
 	echo %0
 	echo Environment:
-	echo     DDK               DDK home
-	echo     SIGNTOOL          signtool, default from DDK
-	echo     DEVCON32          devcon, default from DDK
-	echo     DEVCON64          devcon, default from DDK
-	echo     MAKENSIS          nullsoft installer
-	echo     CODESIGN_PKCS12   Code sign PKCS#12 optional
-	echo     CODESIGN_PASS     Code sign password
-	echo     CODESIGN_CROSS    Cross certificate to be used
-	echo     CODESIGN_ISTEST   If yes, use test certificate
-	echo     OUTDIR            Output directory
+	echo     DDK                   DDK home
+	echo     SIGNTOOL              signtool, default from DDK
+	echo     DEVCON32              devcon, default from DDK
+	echo     DEVCON64              devcon, default from DDK
+	echo     MAKENSIS              nullsoft installer
+	echo     CODESIGN_PKCS12       Code sign PKCS#12 optional
+	echo     CODESIGN_PASS         Code sign password
+	echo     CODESIGN_CROSS        Cross certificate to be used
+	echo     CODESIGN_ISTEST       If yes, use test certificate
+	echo     OUTDIR                Output directory
 	exit /b 1
 )
 
