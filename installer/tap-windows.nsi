@@ -36,7 +36,7 @@ InstallDirRegKey HKLM "SOFTWARE\${PRODUCT_NAME}" ""
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 
-!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of ${PRODUCT_NAME}, an Open Source VPN package by James Yonan.\r\n\r\nNote that the Windows version of ${PRODUCT_NAME} will only run on Win 2000, XP, or higher.\r\n\r\n\r\n"
+!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of ${PRODUCT_NAME}, a kernel driver to provide virtual tap device functionality on Windows originally written by James Yonan.\r\n\r\nNote that the Windows version of ${PRODUCT_NAME} will only run on Windows XP or later.\r\n\r\n\r\n"
 
 !define MUI_COMPONENTSPAGE_TEXT_TOP "Select the components to install/upgrade.  Stop any ${PRODUCT_NAME} processes or the ${PRODUCT_NAME} service if it is running.  All DLLs are installed locally."
 
