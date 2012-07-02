@@ -1,6 +1,6 @@
 dnl define the TAP version
 define([PRODUCT_NAME], [TAP-Windows])
-define([PRODUCT_VERSION], [9.9.0_master])
+define([PRODUCT_VERSION], [9.9.1])
 define([PRODUCT_VERSION_RESOURCE], [9,0,0,9])
 define([PRODUCT_TAP_WIN_COMPONENT_ID], [tap0901])
 define([PRODUCT_TAP_WIN_MAJOR], [9])
@@ -8,4 +8,4 @@ define([PRODUCT_TAP_WIN_MINOR], [9])
 define([PRODUCT_TAP_WIN_PROVIDER], [TAP-Windows Provider V9])
 define([PRODUCT_TAP_WIN_CHARACTERISTICS], [0x81])
 define([PRODUCT_TAP_WIN_DEVICE_DESCRIPTION], [TAP-Windows Adapter V9])
-define([PRODUCT_TAP_WIN_RELDATE], [04/19/2010])
+define([PRODUCT_TAP_WIN_RELDATE], [07/02/2012])
