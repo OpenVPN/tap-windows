@@ -1,6 +1,6 @@
 dnl define the TAP version
 define([PRODUCT_NAME], [TAP-Windows])
-define([PRODUCT_VERSION], [9.9.1])
+define([PRODUCT_VERSION], [9.9.2])
 define([PRODUCT_VERSION_RESOURCE], [9,0,0,9])
 define([PRODUCT_TAP_WIN_COMPONENT_ID], [tap0901])
 define([PRODUCT_TAP_WIN_MAJOR], [9])

@@ -443,7 +443,7 @@ ProcessDHCP (TapAdapterPointer p_Adapter,
     p_Adapter->m_dhcp_received_discover = TRUE;
 
   // Is this a bad DHCPREQUEST?
-  if (msg_type == DHCPREQUEST && dhcp->ciaddr != p_Adapter->m_dhcp_addr)
+  if (msg_type == DHCPREQUEST && dhcp->ciaddr && dhcp->ciaddr != p_Adapter->m_dhcp_addr)
     ++p_Adapter->m_dhcp_bad_requests;
 
   return TRUE;
