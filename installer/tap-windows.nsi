@@ -15,6 +15,9 @@ SetCompressor lzma
 !include "x64.nsh"
 !define MULTIUSER_EXECUTIONLEVEL Admin
 !include "MultiUser.nsh"
+!include FileFunc.nsh
+!insertmacro GetParameters
+!insertmacro GetOptions
 
 ${StrLoc}
 
@@ -81,22 +84,25 @@ LangString DESC_SecTAPSDK ${LANG_ENGLISH} "Install the TAP SDK."
 ReserveFile "install-whirl.bmp"
 
 ;--------------------------------
+;Macros
+
+!macro SelectByParameter SECT PARAMETER DEFAULT
+	${GetOptions} $R0 "/${PARAMETER}=" $0
+	${If} ${DEFAULT} == 0
+		${If} $0 == 1
+			!insertmacro SelectSection ${SECT}
+		${EndIf}
+	${Else}
+		${If} $0 != 0
+			!insertmacro SelectSection ${SECT}
+		${EndIf}
+	${EndIf}
+!macroend
+
+;--------------------------------
 ;Installer Sections
 
-Function .onInit
-	ClearErrors
-	!insertmacro MULTIUSER_INIT
-	SetShellVarContext all
-
-	${If} ${RunningX64}
-		SetRegView 64
-		StrCpy $INSTDIR "$PROGRAMFILES64\${PRODUCT_NAME}"
-	${Else}
-		StrCpy $INSTDIR "$PROGRAMFILES\${PRODUCT_NAME}"
-	${EndIf}
-FunctionEnd
-
-Section "TAP Virtual Ethernet Adapter" SecTAP
+Section /o "TAP Virtual Ethernet Adapter" SecTAP
 
 	SetOverwrite on
 
@@ -153,6 +159,25 @@ Section /o "TAP SDK" SecTAPSDK
 	SetOutPath "$INSTDIR\include"
 	File "${IMAGE}\include\tap-windows.h"
 SectionEnd
+
+Function .onInit
+	${GetParameters} $R0
+	ClearErrors
+
+	!insertmacro SelectByParameter ${SecTAP} SELECT_TAP 1
+	!insertmacro SelectByParameter ${SecTAPUtilities} SELECT_UTILITIES 0 
+	!insertmacro SelectByParameter ${SecTAPSDK} SELECT_SDK 0
+
+	!insertmacro MULTIUSER_INIT
+	SetShellVarContext all
+
+	${If} ${RunningX64}
+		SetRegView 64
+		StrCpy $INSTDIR "$PROGRAMFILES64\${PRODUCT_NAME}"
+	${Else}
+		StrCpy $INSTDIR "$PROGRAMFILES\${PRODUCT_NAME}"
+	${EndIf}
+FunctionEnd
 
 ;--------------------------------
 ;Dependencies
