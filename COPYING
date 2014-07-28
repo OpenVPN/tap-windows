@@ -5,8 +5,18 @@ TAP-Win32/TAP-Win64 Driver license:
   Damion K. Wilson.
 
   The source and object code of the TAP-Win32/TAP-Win64 driver
-  is Copyright (C) 2002-2010 OpenVPN Technologies, Inc., and is released under
-  the GPL version 2.
+  is Copyright (C) 2002-2010 OpenVPN Technologies, Inc., and is released
+  under the GPL version 2. The licensors also make the following
+  statement borrowed from the SPICE project:
+
+  With respect to binaries built using the Microsoft(R) Windows
+  Driver Kit (WDK), GPLv2 does not extend to any code contained in or
+  derived from the WDK ("WDK Code").  As to WDK Code, by using or
+  distributing such binaries you agree to be bound by the Microsoft
+  Software License Terms for the WDK.  All WDK Code is considered by
+  the GPLv2 licensors to qualify for the special exception stated in
+  section 3 of GPLv2 (commonly known as the system library
+  exception).
 
 NSIS License:
 -------------
@@ -37,4 +47,3 @@ GNU Public License (GPL)
 
   In the Windows binary distribution of OpenVPN, the
   GPL is reproduced below.
-
